@@ -1,5 +1,7 @@
 import React from "react";
+import Image from "next/image";
 import { FigmaAsset } from "@/components/common/figma-asset";
+import { CalendarEventCard, CalendarActionCard } from "@/components/common/calendar-event-card";
 
 export default function HomePage() {
   return (
@@ -591,178 +593,52 @@ export default function HomePage() {
           data-figma-node="358:3313"
           className="w-full max-w-full h-[112px] flex flex-row items-stretch gap-3 p-0 overflow-x-auto no-scrollbar pb-1"
         >
-          {/* Card 1: Board meeting (Figma Node: 358:3314) */}
-          <div
-            data-figma-node="358:3314"
-            className="box-border flex-1 min-w-[240px] h-[112px] shrink-0 flex items-center p-3 gap-4 bg-[#FFFFFF] border border-[#E5E5E5] rounded-[12px]"
-          >
-            <div className="flex flex-row items-center gap-3 w-full h-[80px]">
-              {/* Date Block */}
-              <div className="w-[50px] h-[80px] shrink-0 flex flex-col items-center bg-[#FFFFFF] border border-[#E5E5E5] rounded-[8px] overflow-hidden box-border">
-                {/* Month Area */}
-                <div className="w-[50px] h-[30px] p-[4px_8px_2px] flex justify-center items-center bg-[#FFFDF5] box-border">
-                  <span className="font-sans font-semibold text-[16px] leading-[24px] text-[#D99A00]">
-                    SEP
-                  </span>
-                </div>
-                {/* Date Area */}
-                <div className="w-[50px] h-[50px] p-[1px_8px_3px] flex justify-center items-center box-border">
-                  <span
-                    style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
-                    className="font-bold text-[24px] leading-[32px] text-center text-[#D99A00]"
-                  >
-                    15
-                  </span>
-                </div>
-              </div>
+          {/* Card 1: Board meeting */}
+          <CalendarEventCard
+            nodeId="358:3314"
+            month="SEP"
+            day="15"
+            variant="yellow"
+            supportingText="Tomorrow"
+            title="Board meeting"
+            badgeIconSrc="/figma/home/event-calendar.svg"
+            badgeIconName="event-calendar"
+            badgeLabel="All day"
+          />
 
-              {/* Text Column */}
-              <div className="flex-1 h-[72px] flex flex-col justify-center items-start gap-[2px]">
-                <span className="font-sans font-normal text-[14px] leading-[20px] text-[#525252]">
-                  Tomorrow
-                </span>
-                <h3 className="font-sans font-semibold text-[16px] leading-[24px] text-[#171717]">
-                  Board meeting
-                </h3>
-                {/* Time Badge */}
-                <div className="h-[24px] px-[8px] pl-[6px] py-[2px] flex items-center gap-1 bg-[#FFFFFF] border border-[#D4D4D4] rounded-[6px] shadow-[0_1px_2px_rgba(0,0,0,0.05)] box-border">
-                  <FigmaAsset
-                    nodeId="358:3314"
-                    name="event-calendar"
-                    src="/figma/home/event-calendar.svg"
-                    width={12}
-                    height={12}
-                    alt=""
-                  />
-                  <span className="font-sans font-medium text-[14px] leading-[20px] text-[#404040]">
-                    All day
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* Card 2: Kresge Foundation */}
+          <CalendarEventCard
+            nodeId="358:3321"
+            month="SEP"
+            day="17"
+            variant="purple"
+            supportingText="Friday"
+            title="Kresge Foundation"
+            badgeIconSrc="/figma/home/event-clock.svg"
+            badgeIconName="event-clock"
+            badgeLabel="9:00 AM"
+          />
 
-          {/* Card 2: Kresge Foundation (Figma Node: 358:3321) */}
-          <div
-            data-figma-node="358:3321"
-            className="box-border flex-1 min-w-[240px] h-[112px] shrink-0 flex items-center p-3 gap-4 bg-[#FFFFFF] border border-[#E5E5E5] rounded-[12px]"
-          >
-            <div className="flex flex-row items-center gap-3 w-full h-[80px]">
-              {/* Date Block */}
-              <div className="w-[50px] h-[80px] shrink-0 flex flex-col items-center bg-[#FFFFFF] border border-[#E5E5E5] rounded-[8px] overflow-hidden box-border">
-                {/* Month Area */}
-                <div className="w-[50px] h-[30px] p-[4px_8px_2px] flex justify-center items-center bg-[#FAF5FF] box-border">
-                  <span className="font-sans font-semibold text-[16px] leading-[24px] text-[#7E22CE]">
-                    SEP
-                  </span>
-                </div>
-                {/* Date Area */}
-                <div className="w-[50px] h-[50px] p-[1px_8px_3px] flex justify-center items-center box-border">
-                  <span
-                    style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
-                    className="font-bold text-[24px] leading-[32px] text-center text-[#7E22CE]"
-                  >
-                    17
-                  </span>
-                </div>
-              </div>
+          {/* Card 3: Grant follow-up */}
+          <CalendarEventCard
+            nodeId="358:3328"
+            month="SEP"
+            day="20"
+            variant="green"
+            supportingText="Monday"
+            title="Grant follow-up"
+            badgeIconSrc="/figma/home/event-clock.svg"
+            badgeIconName="event-clock"
+            badgeLabel="10:00 AM"
+          />
 
-              {/* Text Column */}
-              <div className="flex-1 h-[72px] flex flex-col justify-center items-start gap-[2px]">
-                <span className="font-sans font-normal text-[14px] leading-[20px] text-[#525252]">
-                  Friday
-                </span>
-                <h3 className="font-sans font-semibold text-[16px] leading-[24px] text-[#171717]">
-                  Kresge Foundation
-                </h3>
-                {/* Time Badge */}
-                <div className="h-[24px] px-[8px] pl-[6px] py-[2px] flex items-center gap-1 bg-[#FFFFFF] border border-[#D4D4D4] rounded-[6px] shadow-[0_1px_2px_rgba(0,0,0,0.05)] box-border">
-                  <FigmaAsset
-                    nodeId="358:3321"
-                    name="event-clock"
-                    src="/figma/home/event-clock.svg"
-                    width={12}
-                    height={12}
-                    alt=""
-                  />
-                  <span className="font-sans font-medium text-[14px] leading-[20px] text-[#404040]">
-                    9:00 AM
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 3: Grant follow-up (Figma Node: 358:3328) */}
-          <div
-            data-figma-node="358:3328"
-            className="box-border flex-1 min-w-[240px] h-[112px] shrink-0 flex items-center p-3 gap-4 bg-[#FFFFFF] border border-[#E5E5E5] rounded-[12px]"
-          >
-            <div className="flex flex-row items-center gap-3 w-full h-[80px]">
-              {/* Date Block */}
-              <div className="w-[50px] h-[80px] shrink-0 flex flex-col items-center bg-[#FFFFFF] border border-[#E5E5E5] rounded-[8px] overflow-hidden box-border">
-                {/* Month Area */}
-                <div className="w-[50px] h-[30px] p-[4px_8px_2px] flex justify-center items-center bg-[#F0FDF4] box-border">
-                  <span className="font-sans font-semibold text-[16px] leading-[24px] text-[#15803D]">
-                    SEP
-                  </span>
-                </div>
-                {/* Date Area */}
-                <div className="w-[50px] h-[50px] p-[1px_8px_3px] flex justify-center items-center box-border">
-                  <span
-                    style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
-                    className="font-bold text-[24px] leading-[32px] text-center text-[#15803D]"
-                  >
-                    20
-                  </span>
-                </div>
-              </div>
-
-              {/* Text Column */}
-              <div className="flex-1 h-[72px] flex flex-col justify-center items-start gap-[2px]">
-                <span className="font-sans font-normal text-[14px] leading-[20px] text-[#525252]">
-                  Monday
-                </span>
-                <h3 className="font-sans font-semibold text-[16px] leading-[24px] text-[#171717]">
-                  Grant follow-up
-                </h3>
-                {/* Time Badge */}
-                <div className="h-[24px] px-[8px] pl-[6px] py-[2px] flex items-center gap-1 bg-[#FFFFFF] border border-[#D4D4D4] rounded-[6px] shadow-[0_1px_2px_rgba(0,0,0,0.05)] box-border">
-                  <FigmaAsset
-                    nodeId="358:3328"
-                    name="event-clock"
-                    src="/figma/home/event-clock.svg"
-                    width={12}
-                    height={12}
-                    alt=""
-                  />
-                  <span className="font-sans font-medium text-[14px] leading-[20px] text-[#404040]">
-                    10:00 AM
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 4: View calendar (Figma Node: 358:3335) */}
-          <div
-            data-figma-node="358:3335"
-            className="box-border w-[118px] h-[112px] grow-0 shrink-0 flex items-center justify-center p-3 bg-[#FFFFFF] border border-[#E5E5E5] rounded-[12px] cursor-pointer hover:bg-[#FAFAFA] transition-colors"
-          >
-            <div className="w-[94px] h-[60px] flex flex-col justify-center items-center gap-3">
-              <FigmaAsset
-                nodeId="358:3335"
-                name="calendar-icon"
-                src="/figma/home/calendar-icon.svg"
-                width={28}
-                height={28}
-                alt="Calendar"
-              />
-              <span className="w-[94px] font-sans font-medium text-[14px] leading-[20px] text-[#171717] text-center whitespace-nowrap">
-                View calendar
-              </span>
-            </div>
-          </div>
+          {/* Card 4: View calendar */}
+          <CalendarActionCard
+            nodeId="358:3335"
+            iconSrc="/figma/home/calendar-icon.svg"
+            iconName="calendar-icon"
+            label="View calendar"
+          />
         </div>
       </section>
     </div>

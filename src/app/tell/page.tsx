@@ -4,8 +4,11 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { FigmaAsset } from "@/components/common/figma-asset";
 import { cn } from "@/lib/utils";
+import { usePostie } from "@/lib/postie-context";
+import { CalendarEventCard, CalendarActionCard } from "@/components/common/calendar-event-card";
 
 export default function TellPage() {
+  const { postieView } = usePostie();
   const [activeTab, setActiveTab] = useState<"overview" | "story" | "calendar">("overview");
 
   return (
@@ -127,11 +130,11 @@ export default function TellPage() {
         </div>
 
         {/* 4 Cards Row (272px) with horizontal scroll */}
-        <div className="w-full max-w-full h-[272px] flex flex-row items-start p-0 gap-4 overflow-x-auto no-scrollbar pb-1">
+        <div className="w-full max-w-full min-h-[272px] flex flex-row items-stretch p-0 gap-4 overflow-x-auto no-scrollbar pb-1">
           {/* Card 1: Youth Career Pathways */}
-          <div className="box-border w-[233px] min-w-[233px] h-[272px] shrink-0 flex flex-col items-start p-4 gap-3 relative isolate bg-[#FFFFFF] border border-[#E5E5E5] shadow-[0_1px_2px_rgba(0,0,0,0.05)] rounded-[16px] hover:border-[#D4D4D4] transition-colors">
-            {/* Image Container: 201x100 */}
-            <div className="w-[201px] h-[100px] border border-[rgba(0,0,0,0.10)] rounded-[8px] overflow-hidden relative shrink-0 bg-[#F5F5F5]">
+          <div className="box-border flex-1 min-w-[220px] h-[272px] shrink-0 flex flex-col items-start p-4 gap-3 relative isolate bg-[#FFFFFF] border border-[#E5E5E5] shadow-[0_1px_2px_rgba(0,0,0,0.05)] rounded-[16px] hover:border-[#D4D4D4] transition-colors">
+            {/* Image Container */}
+            <div className="w-full h-[100px] border border-[rgba(0,0,0,0.10)] rounded-[8px] overflow-hidden relative shrink-0 bg-[#F5F5F5]">
               <Image
                 src="/figma/tell/story-1.png"
                 alt="Youth Career Pathways"
@@ -145,11 +148,11 @@ export default function TellPage() {
               In review
             </span>
 
-            {/* Content Below Image: 201x128 */}
-            <div className="w-[201px] h-[128px] flex flex-col items-start justify-between">
+            {/* Content Below Image */}
+            <div className="w-full flex-1 flex flex-col items-start justify-between">
               {/* Title + Supporting text */}
-              <div className="flex flex-col items-start">
-                <h3 className="font-sans font-semibold text-[16px] leading-[24px] text-[#171717]">
+              <div className="w-full flex flex-col items-start">
+                <h3 className="font-sans font-semibold text-[16px] leading-[24px] text-[#171717] truncate w-full">
                   Youth Career Pathways
                 </h3>
                 <p className="font-sans font-normal text-[12px] leading-[18px] text-[#525252]">
@@ -174,8 +177,8 @@ export default function TellPage() {
               </div>
 
               {/* Progress Block */}
-              <div className="w-[201px] h-[34px] flex flex-col gap-2">
-                <div className="w-[201px] h-[8px] rounded-full bg-[#E5E5E5] overflow-hidden">
+              <div className="w-full flex flex-col gap-2">
+                <div className="w-full h-[8px] rounded-full bg-[#E5E5E5] overflow-hidden">
                   <div className="h-full bg-[#F4B400] rounded-full" style={{ width: "40.25%" }} />
                 </div>
                 <span className="font-sans font-normal text-[12px] leading-[18px] text-[#525252]">
@@ -186,9 +189,9 @@ export default function TellPage() {
           </div>
 
           {/* Card 2: Community Impact Story */}
-          <div className="box-border w-[233px] min-w-[233px] h-[272px] shrink-0 flex flex-col items-start p-4 gap-3 relative isolate bg-[#FFFFFF] border border-[#E5E5E5] shadow-[0_1px_2px_rgba(0,0,0,0.05)] rounded-[16px] hover:border-[#D4D4D4] transition-colors">
-            {/* Image Container: 201x100 */}
-            <div className="w-[201px] h-[100px] border border-[rgba(0,0,0,0.10)] rounded-[8px] overflow-hidden relative shrink-0 bg-[#F5F5F5]">
+          <div className="box-border flex-1 min-w-[220px] h-[272px] shrink-0 flex flex-col items-start p-4 gap-3 relative isolate bg-[#FFFFFF] border border-[#E5E5E5] shadow-[0_1px_2px_rgba(0,0,0,0.05)] rounded-[16px] hover:border-[#D4D4D4] transition-colors">
+            {/* Image Container */}
+            <div className="w-full h-[100px] border border-[rgba(0,0,0,0.10)] rounded-[8px] overflow-hidden relative shrink-0 bg-[#F5F5F5]">
               <Image
                 src="/figma/tell/story-2.png"
                 alt="Community Impact Story"
@@ -202,11 +205,11 @@ export default function TellPage() {
               Draft
             </span>
 
-            {/* Content Below Image: 201x128 */}
-            <div className="w-[201px] h-[128px] flex flex-col items-start justify-between">
+            {/* Content Below Image */}
+            <div className="w-full flex-1 flex flex-col items-start justify-between">
               {/* Title + Supporting text */}
-              <div className="flex flex-col items-start">
-                <h3 className="font-sans font-semibold text-[16px] leading-[24px] text-[#171717]">
+              <div className="w-full flex flex-col items-start">
+                <h3 className="font-sans font-semibold text-[16px] leading-[24px] text-[#171717] truncate w-full">
                   Community Impact Story
                 </h3>
                 <p className="font-sans font-normal text-[12px] leading-[18px] text-[#525252]">
@@ -231,8 +234,8 @@ export default function TellPage() {
               </div>
 
               {/* Progress Block */}
-              <div className="w-[201px] h-[34px] flex flex-col gap-2">
-                <div className="w-[201px] h-[8px] rounded-full bg-[#E5E5E5] overflow-hidden">
+              <div className="w-full flex flex-col gap-2">
+                <div className="w-full h-[8px] rounded-full bg-[#E5E5E5] overflow-hidden">
                   <div className="h-full bg-[#F4B400] rounded-full" style={{ width: "57.5%" }} />
                 </div>
                 <span className="font-sans font-normal text-[12px] leading-[18px] text-[#525252]">
@@ -243,9 +246,9 @@ export default function TellPage() {
           </div>
 
           {/* Card 3: After-School Success */}
-          <div className="box-border w-[233px] min-w-[233px] h-[272px] shrink-0 flex flex-col items-start p-4 gap-3 relative isolate bg-[#FFFFFF] border border-[#E5E5E5] shadow-[0_1px_2px_rgba(0,0,0,0.05)] rounded-[16px] hover:border-[#D4D4D4] transition-colors">
-            {/* Image Container: 201x100 */}
-            <div className="w-[201px] h-[100px] border border-[rgba(0,0,0,0.10)] rounded-[8px] overflow-hidden relative shrink-0 bg-[#F5F5F5]">
+          <div className="box-border flex-1 min-w-[220px] h-[272px] shrink-0 flex flex-col items-start p-4 gap-3 relative isolate bg-[#FFFFFF] border border-[#E5E5E5] shadow-[0_1px_2px_rgba(0,0,0,0.05)] rounded-[16px] hover:border-[#D4D4D4] transition-colors">
+            {/* Image Container */}
+            <div className="w-full h-[100px] border border-[rgba(0,0,0,0.10)] rounded-[8px] overflow-hidden relative shrink-0 bg-[#F5F5F5]">
               <Image
                 src="/figma/tell/story-3.png"
                 alt="After-School Success"
@@ -259,11 +262,11 @@ export default function TellPage() {
               Ready to schedule
             </span>
 
-            {/* Content Below Image: 201x128 */}
-            <div className="w-[201px] h-[128px] flex flex-col items-start justify-between">
+            {/* Content Below Image */}
+            <div className="w-full flex-1 flex flex-col items-start justify-between">
               {/* Title + Supporting text */}
-              <div className="flex flex-col items-start">
-                <h3 className="font-sans font-semibold text-[16px] leading-[24px] text-[#171717]">
+              <div className="w-full flex flex-col items-start">
+                <h3 className="font-sans font-semibold text-[16px] leading-[24px] text-[#171717] truncate w-full">
                   After-School Success
                 </h3>
                 <p className="font-sans font-normal text-[12px] leading-[18px] text-[#525252]">
@@ -282,8 +285,8 @@ export default function TellPage() {
               </div>
 
               {/* Progress Block */}
-              <div className="w-[201px] h-[34px] flex flex-col gap-2">
-                <div className="w-[201px] h-[8px] rounded-full bg-[#E5E5E5] overflow-hidden">
+              <div className="w-full flex flex-col gap-2">
+                <div className="w-full h-[8px] rounded-full bg-[#E5E5E5] overflow-hidden">
                   <div className="h-full bg-[#F4B400] rounded-full" style={{ width: "74.66%" }} />
                 </div>
                 <span className="font-sans font-normal text-[12px] leading-[18px] text-[#525252]">
@@ -294,9 +297,9 @@ export default function TellPage() {
           </div>
 
           {/* Card 4: Workforce Mentorship */}
-          <div className="box-border w-[233px] min-w-[233px] h-[272px] shrink-0 flex flex-col items-start p-4 gap-3 relative isolate bg-[#FFFFFF] border border-[#E5E5E5] shadow-[0_1px_2px_rgba(0,0,0,0.05)] rounded-[16px] hover:border-[#D4D4D4] transition-colors">
-            {/* Image Container: 201x100 */}
-            <div className="w-[201px] h-[100px] border border-[rgba(0,0,0,0.10)] rounded-[8px] overflow-hidden relative shrink-0 bg-[#F5F5F5]">
+          <div className="box-border flex-1 min-w-[220px] h-[272px] shrink-0 flex flex-col items-start p-4 gap-3 relative isolate bg-[#FFFFFF] border border-[#E5E5E5] shadow-[0_1px_2px_rgba(0,0,0,0.05)] rounded-[16px] hover:border-[#D4D4D4] transition-colors">
+            {/* Image Container */}
+            <div className="w-full h-[100px] border border-[rgba(0,0,0,0.10)] rounded-[8px] overflow-hidden relative shrink-0 bg-[#F5F5F5]">
               <Image
                 src="/figma/tell/story-4.png"
                 alt="Workforce Mentorship"
@@ -310,11 +313,11 @@ export default function TellPage() {
               Draft
             </span>
 
-            {/* Content Below Image: 201x128 */}
-            <div className="w-[201px] h-[128px] flex flex-col items-start justify-between">
+            {/* Content Below Image */}
+            <div className="w-full flex-1 flex flex-col items-start justify-between">
               {/* Title + Supporting text */}
-              <div className="flex flex-col items-start">
-                <h3 className="font-sans font-semibold text-[16px] leading-[24px] text-[#171717]">
+              <div className="w-full flex flex-col items-start">
+                <h3 className="font-sans font-semibold text-[16px] leading-[24px] text-[#171717] truncate w-full">
                   Workforce Mentorship
                 </h3>
                 <p className="font-sans font-normal text-[12px] leading-[18px] text-[#525252]">
@@ -339,8 +342,8 @@ export default function TellPage() {
               </div>
 
               {/* Progress Block */}
-              <div className="w-[201px] h-[34px] flex flex-col gap-2">
-                <div className="w-[201px] h-[8px] rounded-full bg-[#E5E5E5] overflow-hidden">
+              <div className="w-full flex flex-col gap-2">
+                <div className="w-full h-[8px] rounded-full bg-[#E5E5E5] overflow-hidden">
                   <div className="h-full bg-[#F4B400] rounded-full" style={{ width: "40.25%" }} />
                 </div>
                 <span className="font-sans font-normal text-[12px] leading-[18px] text-[#525252]">
@@ -532,7 +535,12 @@ export default function TellPage() {
       </section>
 
       {/* 4. CONTENT CALENDAR Section */}
-      <section className="flex flex-col gap-2.5">
+      <section
+        className={cn(
+          "flex flex-col gap-2.5 transition-[padding] duration-200",
+          postieView === "floating" && "pr-[424px]"
+        )}
+      >
         <h2 className="text-[12px] font-semibold tracking-[0.06em] uppercase text-[#737373]">
           Content Calendar
         </h2>
@@ -540,159 +548,51 @@ export default function TellPage() {
         {/* Events wrapper with horizontal scroll */}
         <div className="w-full max-w-full h-[112px] flex flex-row items-stretch gap-3 p-0 overflow-x-auto no-scrollbar pb-1">
           {/* Card 1: Board meeting */}
-          <div className="box-border flex-1 min-w-[240px] h-[112px] shrink-0 flex items-center p-3 gap-4 bg-[#FFFFFF] border border-[#E5E5E5] rounded-[12px]">
-            <div className="flex flex-row items-center gap-3 w-full h-[80px]">
-              {/* Date Block */}
-              <div className="w-[50px] h-[80px] shrink-0 flex flex-col items-center bg-[#FFFFFF] border border-[#E5E5E5] rounded-[8px] overflow-hidden box-border">
-                <div className="w-[50px] h-[30px] p-[4px_8px_2px] flex justify-center items-center bg-[#FFFDF5] box-border">
-                  <span className="font-sans font-semibold text-[16px] leading-[24px] text-[#D99A00]">
-                    SEP
-                  </span>
-                </div>
-                <div className="w-[50px] h-[50px] p-[1px_8px_3px] flex justify-center items-center box-border">
-                  <span
-                    style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
-                    className="font-bold text-[24px] leading-[32px] text-center text-[#D99A00]"
-                  >
-                    15
-                  </span>
-                </div>
-              </div>
-
-              {/* Text Column */}
-              <div className="flex-1 h-[72px] flex flex-col justify-center items-start gap-[2px]">
-                <span className="font-sans font-normal text-[14px] leading-[20px] text-[#525252]">
-                  Tomorrow
-                </span>
-                <h3 className="font-sans font-semibold text-[16px] leading-[24px] text-[#171717]">
-                  Board meeting
-                </h3>
-                {/* Time Badge */}
-                <div className="h-[24px] px-[8px] pl-[6px] py-[2px] flex items-center gap-1 bg-[#FFFFFF] border border-[#D4D4D4] rounded-[6px] shadow-[0_1px_2px_rgba(0,0,0,0.05)] box-border">
-                  <FigmaAsset
-                    nodeId="211:483"
-                    name="event-calendar"
-                    src="/figma/home/event-calendar.svg"
-                    width={12}
-                    height={12}
-                    alt=""
-                  />
-                  <span className="font-sans font-medium text-[14px] leading-[20px] text-[#404040]">
-                    All day
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <CalendarEventCard
+            nodeId="211:483"
+            month="SEP"
+            day="15"
+            variant="yellow"
+            supportingText="Tomorrow"
+            title="Board meeting"
+            badgeIconSrc="/figma/home/event-calendar.svg"
+            badgeIconName="event-calendar"
+            badgeLabel="All day"
+          />
 
           {/* Card 2: After-School Success */}
-          <div className="box-border flex-1 min-w-[240px] h-[112px] shrink-0 flex items-center p-3 gap-4 bg-[#FFFFFF] border border-[#E5E5E5] rounded-[12px]">
-            <div className="flex flex-row items-center gap-3 w-full h-[80px]">
-              {/* Date Block */}
-              <div className="w-[50px] h-[80px] shrink-0 flex flex-col items-center bg-[#FFFFFF] border border-[#E5E5E5] rounded-[8px] overflow-hidden box-border">
-                <div className="w-[50px] h-[30px] p-[4px_8px_2px] flex justify-center items-center bg-[#FAF5FF] box-border">
-                  <span className="font-sans font-semibold text-[16px] leading-[24px] text-[#7E22CE]">
-                    SEP
-                  </span>
-                </div>
-                <div className="w-[50px] h-[50px] p-[1px_8px_3px] flex justify-center items-center box-border">
-                  <span
-                    style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
-                    className="font-bold text-[24px] leading-[32px] text-center text-[#7E22CE]"
-                  >
-                    17
-                  </span>
-                </div>
-              </div>
-
-              {/* Text Column */}
-              <div className="flex-1 h-[72px] flex flex-col justify-center items-start gap-[2px]">
-                <span className="font-sans font-normal text-[14px] leading-[20px] text-[#525252]">
-                  Friday
-                </span>
-                <h3 className="font-sans font-semibold text-[16px] leading-[24px] text-[#171717]">
-                  After-School Success
-                </h3>
-                {/* Time Badge */}
-                <div className="h-[24px] px-[8px] pl-[6px] py-[2px] flex items-center gap-1 bg-[#FFFFFF] border border-[#D4D4D4] rounded-[6px] shadow-[0_1px_2px_rgba(0,0,0,0.05)] box-border">
-                  <FigmaAsset
-                    nodeId="211:483"
-                    name="event-clock"
-                    src="/figma/home/event-clock.svg"
-                    width={12}
-                    height={12}
-                    alt=""
-                  />
-                  <span className="font-sans font-medium text-[14px] leading-[20px] text-[#404040]">
-                    9:00 AM
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <CalendarEventCard
+            nodeId="211:483"
+            month="SEP"
+            day="17"
+            variant="purple"
+            supportingText="Friday"
+            title="After-School Success"
+            badgeIconSrc="/figma/home/event-clock.svg"
+            badgeIconName="event-clock"
+            badgeLabel="9:00 AM"
+          />
 
           {/* Card 3: Grant follow-up */}
-          <div className="box-border flex-1 min-w-[240px] h-[112px] shrink-0 flex items-center p-3 gap-4 bg-[#FFFFFF] border border-[#E5E5E5] rounded-[12px]">
-            <div className="flex flex-row items-center gap-3 w-full h-[80px]">
-              {/* Date Block */}
-              <div className="w-[50px] h-[80px] shrink-0 flex flex-col items-center bg-[#FFFFFF] border border-[#E5E5E5] rounded-[8px] overflow-hidden box-border">
-                <div className="w-[50px] h-[30px] p-[4px_8px_2px] flex justify-center items-center bg-[#F0FDF4] box-border">
-                  <span className="font-sans font-semibold text-[16px] leading-[24px] text-[#15803D]">
-                    SEP
-                  </span>
-                </div>
-                <div className="w-[50px] h-[50px] p-[1px_8px_3px] flex justify-center items-center box-border">
-                  <span
-                    style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
-                    className="font-bold text-[24px] leading-[32px] text-center text-[#15803D]"
-                  >
-                    20
-                  </span>
-                </div>
-              </div>
-
-              {/* Text Column */}
-              <div className="flex-1 h-[72px] flex flex-col justify-center items-start gap-[2px]">
-                <span className="font-sans font-normal text-[14px] leading-[20px] text-[#525252]">
-                  Monday
-                </span>
-                <h3 className="font-sans font-semibold text-[16px] leading-[24px] text-[#171717]">
-                  Grant follow-up
-                </h3>
-                {/* Time Badge */}
-                <div className="h-[24px] px-[8px] pl-[6px] py-[2px] flex items-center gap-1 bg-[#FFFFFF] border border-[#D4D4D4] rounded-[6px] shadow-[0_1px_2px_rgba(0,0,0,0.05)] box-border">
-                  <FigmaAsset
-                    nodeId="211:483"
-                    name="event-clock"
-                    src="/figma/home/event-clock.svg"
-                    width={12}
-                    height={12}
-                    alt=""
-                  />
-                  <span className="font-sans font-medium text-[14px] leading-[20px] text-[#404040]">
-                    10:00 AM
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <CalendarEventCard
+            nodeId="211:483"
+            month="SEP"
+            day="20"
+            variant="green"
+            supportingText="Monday"
+            title="Grant follow-up"
+            badgeIconSrc="/figma/home/event-clock.svg"
+            badgeIconName="event-clock"
+            badgeLabel="10:00 AM"
+          />
 
           {/* Card 4: View calendar */}
-          <div className="box-border w-[118px] min-w-[118px] h-[112px] shrink-0 flex items-center justify-center p-3 bg-[#FFFFFF] border border-[#E5E5E5] rounded-[12px] cursor-pointer hover:bg-[#FAFAFA] transition-colors">
-            <div className="w-[94px] h-[60px] flex flex-col justify-center items-center gap-3">
-              <FigmaAsset
-                nodeId="211:483"
-                name="calendar-icon"
-                src="/figma/home/calendar-icon.svg"
-                width={28}
-                height={28}
-                alt="Calendar"
-              />
-              <span className="w-[94px] font-sans font-medium text-[14px] leading-[20px] text-[#171717] text-center whitespace-nowrap">
-                View calendar
-              </span>
-            </div>
-          </div>
+          <CalendarActionCard
+            nodeId="211:483"
+            iconSrc="/figma/home/calendar-icon.svg"
+            iconName="calendar-icon"
+            label="View calendar"
+          />
         </div>
       </section>
     </div>
