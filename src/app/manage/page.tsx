@@ -132,7 +132,7 @@ function ManageCard({ card }: { card: ManageCardData }) {
             {/* Featured Icon 56x56 */}
             <div
               className={cn(
-                "w-[56px] h-[56px] rounded-[12px] flex items-center justify-center shrink-0",
+                "relative w-[56px] h-[56px] rounded-[12px] shrink-0",
                 card.iconBgColor
               )}
             >
@@ -142,6 +142,7 @@ function ManageCard({ card }: { card: ManageCardData }) {
                 src={card.iconSrc}
                 width={28}
                 height={28}
+                className="absolute left-[14px] top-[14px]"
                 alt={card.title}
               />
             </div>
