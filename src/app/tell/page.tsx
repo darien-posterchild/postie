@@ -6,6 +6,7 @@ import { FigmaAsset } from "@/components/common/figma-asset";
 import { cn } from "@/lib/utils";
 import { usePostie } from "@/lib/postie-context";
 import { CalendarEventCard, CalendarActionCard } from "@/components/common/calendar-event-card";
+import { PageHeader } from "@/components/common/page-header";
 
 export default function TellPage() {
   const { postieView } = usePostie();
@@ -14,25 +15,14 @@ export default function TellPage() {
   return (
     <div
       data-figma-node="211:483"
-      className="w-full flex flex-col gap-6 shrink-0"
+      className="w-full flex flex-col gap-6 shrink-0 pb-6"
     >
       {/* 1. Header & Tabs Area */}
-      <div className="flex flex-col gap-6">
-        {/* Top Row: Title + Primary CTA */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
-          <div className="flex-1 min-w-0 flex flex-col gap-1">
-            <h1
-              style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
-              className="text-[32px] leading-[40px] font-bold text-[#171717] tracking-[-0.02em]"
-            >
-              Tell powerful stories.
-            </h1>
-            <p className="font-sans font-normal text-[16px] leading-[24px] text-[#525252]">
-              Create, collaborate, and publish content that moves your mission forward.
-            </p>
-          </div>
-
-          {/* Primary Create Story CTA button */}
+      <PageHeader
+        nodeId="211:483"
+        title="Tell powerful stories."
+        description="Create, collaborate, and publish content that moves your mission forward."
+        action={
           <button
             type="button"
             style={{
@@ -49,12 +39,12 @@ export default function TellPage() {
               height={20}
               alt=""
             />
-            <span className="font-inter font-semibold text-[14px] leading-[20px] text-[#181D27] px-[2px] whitespace-nowrap">
+            <span className="font-sans font-semibold text-[14px] leading-[20px] text-[#181D27] px-[2px] whitespace-nowrap">
               Create Story
             </span>
           </button>
-        </div>
-
+        }
+      >
         {/* Outer Tabs Container (32px) */}
         <div className="w-full h-[32px] flex flex-col items-start p-0 border-b border-[#E5E5E5] relative">
           {/* Tab Row */}
@@ -105,7 +95,7 @@ export default function TellPage() {
             </button>
           </div>
         </div>
-      </div>
+      </PageHeader>
 
       {/* 2. IN PROGRESS Section */}
       <section className="flex flex-col gap-3">
@@ -537,8 +527,8 @@ export default function TellPage() {
       {/* 4. CONTENT CALENDAR Section */}
       <section
         className={cn(
-          "flex flex-col gap-2.5 transition-[padding] duration-200",
-          postieView === "floating" && "pr-[424px]"
+          "flex flex-col gap-2.5 transition-[width] duration-200",
+          postieView === "floating" ? "w-[calc(100%-420px)] max-w-[calc(100%-420px)]" : "w-full"
         )}
       >
         <h2 className="text-[12px] font-semibold tracking-[0.06em] uppercase text-[#737373]">
@@ -558,6 +548,7 @@ export default function TellPage() {
             badgeIconSrc="/figma/home/event-calendar.svg"
             badgeIconName="event-calendar"
             badgeLabel="All day"
+            className="flex-1 min-w-[260px] shrink-0"
           />
 
           {/* Card 2: After-School Success */}
@@ -571,6 +562,7 @@ export default function TellPage() {
             badgeIconSrc="/figma/home/event-clock.svg"
             badgeIconName="event-clock"
             badgeLabel="9:00 AM"
+            className="flex-1 min-w-[260px] shrink-0"
           />
 
           {/* Card 3: Grant follow-up */}
@@ -584,6 +576,7 @@ export default function TellPage() {
             badgeIconSrc="/figma/home/event-clock.svg"
             badgeIconName="event-clock"
             badgeLabel="10:00 AM"
+            className="flex-1 min-w-[260px] shrink-0"
           />
 
           {/* Card 4: View calendar */}
@@ -592,6 +585,7 @@ export default function TellPage() {
             iconSrc="/figma/home/calendar-icon.svg"
             iconName="calendar-icon"
             label="View calendar"
+            className="w-[118px] min-w-[118px] flex-none shrink-0"
           />
         </div>
       </section>

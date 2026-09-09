@@ -2,6 +2,7 @@ import React from "react";
 import { FigmaAsset } from "@/components/common/figma-asset";
 import { cn } from "@/lib/utils";
 import { CalendarEventCard, CalendarActionCard } from "@/components/common/calendar-event-card";
+import { PageHeader } from "@/components/common/page-header";
 
 interface MetricCardProps {
   nodeId: string;
@@ -90,44 +91,36 @@ export default function RaisePage() {
   return (
     <div
       data-figma-node="358:3622"
-      className="w-full flex flex-col gap-6 shrink-0"
+      className="w-full flex flex-col gap-6 shrink-0 pb-6"
     >
       {/* 1. Header & Primary CTA */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
-        <div className="flex-1 min-w-0 flex flex-col gap-1">
-          <h1
-            style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
-            className="text-[36px] leading-[44px] font-semibold text-[#171717] tracking-[-0.72px]"
+      <PageHeader
+        nodeId="358:3622"
+        title="Raise more. Change more lives."
+        description="Smart matches, stronger relationships, more resources for your mission."
+        action={
+          <button
+            type="button"
+            style={{
+              boxShadow:
+                "0px 1px 2px rgba(10, 13, 18, 0.05), inset 0px 0px 0px 1px rgba(10, 13, 18, 0.18), inset 0px -2px 0px rgba(10, 13, 18, 0.05)",
+            }}
+            className="box-border w-[172px] h-[36px] px-3 py-2 bg-[#FFC700] rounded-[8px] flex flex-row items-center justify-center gap-1 cursor-pointer hover:bg-[#F5BF00] transition-colors border-none outline-none appearance-none whitespace-nowrap shrink-0"
           >
-            Raise more. Change more lives.
-          </h1>
-          <p className="font-sans font-normal text-[14px] leading-[20px] text-[#525252]">
-            Smart matches, stronger relationships, more resources for your mission.
-          </p>
-        </div>
-
-        {/* Primary Find Opportunities CTA button */}
-        <button
-          type="button"
-          style={{
-            boxShadow:
-              "0px 1px 2px rgba(10, 13, 18, 0.05), inset 0px 0px 0px 1px rgba(10, 13, 18, 0.18), inset 0px -2px 0px rgba(10, 13, 18, 0.05)",
-          }}
-          className="box-border w-[172px] h-[36px] px-3 py-2 bg-[#FFC700] rounded-[8px] flex flex-row items-center justify-center gap-1 cursor-pointer hover:bg-[#F5BF00] transition-colors border-none outline-none appearance-none whitespace-nowrap shrink-0"
-        >
-          <FigmaAsset
-            nodeId="358:3622"
-            name="plus"
-            src="/figma/tell/plus-icon.svg"
-            width={20}
-            height={20}
-            alt=""
-          />
-          <span className="font-sans font-semibold text-[14px] leading-[20px] text-[#181D27] px-[2px] whitespace-nowrap">
-            Find opportunities
-          </span>
-        </button>
-      </div>
+            <FigmaAsset
+              nodeId="358:3622"
+              name="plus"
+              src="/figma/tell/plus-icon.svg"
+              width={20}
+              height={20}
+              alt=""
+            />
+            <span className="font-sans font-semibold text-[14px] leading-[20px] text-[#181D27] px-[2px] whitespace-nowrap">
+              Find opportunities
+            </span>
+          </button>
+        }
+      />
 
       {/* 2. METRICS ROW Section with responsive scrolling */}
       <section className="flex flex-col gap-3">

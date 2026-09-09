@@ -1,6 +1,7 @@
 import React from "react";
 import { FigmaAsset } from "@/components/common/figma-asset";
 import { cn } from "@/lib/utils";
+import { PageHeader } from "@/components/common/page-header";
 
 interface InventoryItem {
   label: string;
@@ -218,20 +219,11 @@ export default function ManagePage() {
       {/* ==================================================
           PAGE HEADER (Figma Frame Node: 365:4088)
           ================================================== */}
-      <div className="w-full flex flex-col gap-[2px]">
-        <h1
-          style={{
-            fontFamily: "var(--font-fraunces), Georgia, serif",
-            letterSpacing: "-0.72px",
-          }}
-          className="font-semibold text-[36px] leading-[44px] text-[#171717] m-0"
-        >
-          Your organization, all in one place.
-        </h1>
-        <p className="font-sans font-normal text-[16px] leading-[24px] text-[#525252] m-0">
-          Everything PosterChild knows about your organization. Keep your information up to date, organized, and ready to use.
-        </p>
-      </div>
+      <PageHeader
+        nodeId="365:4088"
+        title="Your organization, all in one place."
+        description="Everything PosterChild knows about your organization. Keep your information up to date, organized, and ready to use."
+      />
 
       {/* ==================================================
           MANAGE CARDS GRID (3 cols desktop, 2 cols tablet, 1 col mobile)

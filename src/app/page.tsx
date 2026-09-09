@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { FigmaAsset } from "@/components/common/figma-asset";
 import { CalendarEventCard, CalendarActionCard } from "@/components/common/calendar-event-card";
+import { PageHeader } from "@/components/common/page-header";
 
 export default function HomePage() {
   return (
@@ -10,17 +11,11 @@ export default function HomePage() {
       data-figma-node="358:3236"
     >
       {/* 1. Page Header (Figma Node: 358:3237) */}
-      <div className="flex flex-col gap-1" data-figma-node="358:3237">
-        <h1
-          style={{ fontFamily: "var(--font-fraunces), serif" }}
-          className="font-semibold text-[36px] leading-[44px] tracking-[-0.02em] text-[#171717]"
-        >
-          Good morning, Jeff! 👋
-        </h1>
-        <p className="font-sans text-[16px] leading-[24px] text-[#737373]">
-          Here&apos;s what deserves your attention today.
-        </p>
-      </div>
+      <PageHeader
+        nodeId="358:3237"
+        title="Good morning, Jeff! 👋"
+        description="Here's what deserves your attention today."
+      />
 
       {/* 2. WHAT NEEDS YOUR ATTENTION Section (Figma Node: 358:3238) */}
       <section className="flex flex-col gap-3" data-figma-node="358:3238">

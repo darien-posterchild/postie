@@ -14,6 +14,7 @@ export interface CalendarEventProps {
   badgeIconSrc: string;
   badgeIconName: string;
   badgeLabel: string;
+  className?: string;
 }
 
 export function CalendarEventCard({
@@ -26,6 +27,7 @@ export function CalendarEventCard({
   badgeIconSrc,
   badgeIconName,
   badgeLabel,
+  className,
 }: CalendarEventProps) {
   const variantStyles = {
     yellow: {
@@ -45,7 +47,10 @@ export function CalendarEventCard({
   return (
     <div
       data-figma-node={nodeId}
-      className="box-border flex-1 min-w-[240px] h-[112px] shrink-0 flex items-center p-3 gap-4 bg-[#FFFFFF] border border-[#E5E5E5] rounded-[12px]"
+      className={cn(
+        "box-border flex-1 min-w-[240px] h-[112px] shrink-0 flex items-center p-3 gap-4 bg-[#FFFFFF] border border-[#E5E5E5] rounded-[12px]",
+        className
+      )}
     >
       <div className="flex flex-row items-center gap-3 w-full h-[80px]">
         {/* Date Block: 50x80 */}
@@ -114,6 +119,7 @@ export interface CalendarActionCardProps {
   iconName: string;
   label: string;
   onClick?: () => void;
+  className?: string;
 }
 
 export function CalendarActionCard({
@@ -122,12 +128,16 @@ export function CalendarActionCard({
   iconName,
   label,
   onClick,
+  className,
 }: CalendarActionCardProps) {
   return (
     <div
       data-figma-node={nodeId}
       onClick={onClick}
-      className="box-border w-[118px] min-w-[118px] h-[112px] shrink-0 flex items-center justify-center p-3 bg-[#FFFFFF] border border-[#E5E5E5] rounded-[12px] cursor-pointer hover:bg-[#FAFAFA] transition-colors"
+      className={cn(
+        "box-border w-[118px] min-w-[118px] h-[112px] shrink-0 flex items-center justify-center p-3 bg-[#FFFFFF] border border-[#E5E5E5] rounded-[12px] cursor-pointer hover:bg-[#FAFAFA] transition-colors",
+        className
+      )}
     >
       <div className="w-[94px] h-[60px] flex flex-col justify-center items-center gap-3">
         <FigmaAsset
