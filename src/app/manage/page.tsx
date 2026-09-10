@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { FigmaAsset } from "@/components/common/figma-asset";
 import { cn } from "@/lib/utils";
 import { PageHeader } from "@/components/common/page-header";
@@ -17,6 +18,7 @@ interface ManageCardData {
   iconBgColor: string;
   items: InventoryItem[];
   ctaLabel: string;
+  href?: string;
 }
 
 const MANAGE_CARDS: ManageCardData[] = [
@@ -43,6 +45,7 @@ const MANAGE_CARDS: ManageCardData[] = [
     description: "Photos, videos, and brand materials you can use and reuse.",
     iconSrc: "/figma/manage/image-03.svg",
     iconBgColor: "bg-[#F0FDF4]",
+    href: "/manage/assets",
     items: [
       { label: "Photos", value: "342" },
       { label: "Videos", value: "28" },
@@ -116,13 +119,16 @@ const MANAGE_CARDS: ManageCardData[] = [
 ];
 
 function ManageCard({ card }: { card: ManageCardData }) {
-  return (
+  const cardContent = (
     <div
       data-figma-node={card.nodeId}
       style={{
         boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.05)",
       }}
-      className="box-border w-full min-h-[360px] p-4 bg-[#FFFFFF] border border-[#E5E5E5] rounded-[12px] flex flex-col justify-between gap-3"
+      className={cn(
+        "box-border w-full min-h-[360px] p-4 bg-[#FFFFFF] border border-[#E5E5E5] rounded-[12px] flex flex-col justify-between gap-3 transition-colors",
+        card.href && "hover:border-[#D4D4D4] cursor-pointer"
+      )}
     >
       {/* Top section: Header, Description, Inventory items */}
       <div className="flex flex-col gap-3">
@@ -193,12 +199,11 @@ function ManageCard({ card }: { card: ManageCardData }) {
       </div>
 
       {/* 4. Bottom CTA */}
-      <button
-        type="button"
+      <div
         style={{
           fontFamily: "var(--font-inter), system-ui, sans-serif",
         }}
-        className="flex items-center gap-1.5 font-semibold text-[14px] leading-[20px] text-[#8F6500] hover:opacity-80 transition-opacity bg-transparent border-none p-0 cursor-pointer self-start"
+        className="flex items-center gap-1.5 font-semibold text-[14px] leading-[20px] text-[#8F6500] hover:opacity-80 transition-opacity bg-transparent border-none p-0 self-start"
       >
         <span>{card.ctaLabel}</span>
         <FigmaAsset
@@ -209,9 +214,19 @@ function ManageCard({ card }: { card: ManageCardData }) {
           height={20}
           alt=""
         />
-      </button>
+      </div>
     </div>
   );
+
+  if (card.href) {
+    return (
+      <Link href={card.href} className="block w-full no-underline text-inherit">
+        {cardContent}
+      </Link>
+    );
+  }
+
+  return cardContent;
 }
 
 export default function ManagePage() {
