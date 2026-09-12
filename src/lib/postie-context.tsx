@@ -22,12 +22,14 @@ export function PostieProvider({ children }: { children: ReactNode }) {
     try {
       const savedView = localStorage.getItem("postie_view") as PostieView | null;
       const savedLastOpen = localStorage.getItem("postie_last_open") as ("sidebar" | "floating") | null;
-      if (savedView && ["sidebar", "floating", "collapsed"].includes(savedView)) {
-        setPostieViewState(savedView);
-      }
-      if (savedLastOpen && ["sidebar", "floating"].includes(savedLastOpen)) {
-        setLastOpenPostieViewState(savedLastOpen);
-      }
+      queueMicrotask(() => {
+        if (savedView && ["sidebar", "floating", "collapsed"].includes(savedView)) {
+          setPostieViewState(savedView);
+        }
+        if (savedLastOpen && ["sidebar", "floating"].includes(savedLastOpen)) {
+          setLastOpenPostieViewState(savedLastOpen);
+        }
+      });
     } catch {
       // Ignore storage errors in restricted environments
     }

@@ -1,0 +1,10 @@
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="life-buoy-01">
+<circle cx="10" cy="10" r="7.5" stroke="#737373" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="10" cy="10" r="3.33333" stroke="#737373" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4.6967 4.6967L7.64307 7.64307" stroke="#737373" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12.3569 12.3569L15.3033 15.3033" stroke="#737373" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4.6967 15.3033L7.64307 12.3569" stroke="#737373" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12.3569 7.64307L15.3033 4.6967" stroke="#737373" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>

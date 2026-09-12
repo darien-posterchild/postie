@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { FigmaAsset } from "@/components/common/figma-asset";
+import { PostieAnimatedIcon } from "@/components/common/postie-animated-icon";
 import { cn } from "@/lib/utils";
 import { usePostie, PostieView } from "@/lib/postie-context";
 
@@ -262,12 +263,12 @@ const RECENT_CHATS = [
 ];
 
 export function PostiePanel() {
-  const { postieView, setPostieView, collapsePostie, openPostie } = usePostie();
+  const { postieView, setPostieView, openPostie } = usePostie();
   const pathname = usePathname();
   const router = useRouter();
 
-  const isTell = pathname === "/tell";
-  const isRaise = pathname === "/raise";
+  const isTell = pathname.startsWith("/tell");
+  const isRaise = pathname.startsWith("/raise");
   const isAssets = pathname.startsWith("/manage/assets");
   const isManage = pathname === "/manage";
 
@@ -310,23 +311,25 @@ export function PostiePanel() {
   useEffect(() => {
     try {
       const savedMessages = localStorage.getItem("postie_persistent_thread");
-      if (savedMessages) {
-        const parsed = JSON.parse(savedMessages);
-        if (Array.isArray(parsed)) {
-          setMessages(parsed);
-        }
-      }
       const savedContext = localStorage.getItem("postie_attached_context");
-      if (savedContext) {
-        const parsedContext = JSON.parse(savedContext);
-        if (Array.isArray(parsedContext)) {
-          setAttachedContext(parsedContext);
+      queueMicrotask(() => {
+        if (savedMessages) {
+          const parsed = JSON.parse(savedMessages);
+          if (Array.isArray(parsed)) {
+            setMessages(parsed);
+          }
         }
-      }
+        if (savedContext) {
+          const parsedContext = JSON.parse(savedContext);
+          if (Array.isArray(parsedContext)) {
+            setAttachedContext(parsedContext);
+          }
+        }
+        setIsHydrated(true);
+      });
     } catch {
-      // Ignore
+      queueMicrotask(() => setIsHydrated(true));
     }
-    setIsHydrated(true);
   }, []);
 
   // Save messages to localStorage only when complete messages update
@@ -886,125 +889,7 @@ export function PostiePanel() {
     item.title.toLowerCase().includes(contextSearchQuery.toLowerCase())
   );
 
-  // Context Picker Popover Component (opens upward above context row)
-  const ContextPickerPopover = () => (
-    <div
-      style={{
-        boxShadow:
-          "0px 12px 16px -4px rgba(0, 0, 0, 0.08), 0px 4px 6px -2px rgba(0, 0, 0, 0.03)",
-      }}
-      className="absolute bottom-[calc(100%+8px)] right-0 w-[320px] max-w-[calc(100%-16px)] p-2 bg-[#FFFFFF] border border-[#E5E5E5] rounded-[12px] flex flex-col z-50 animate-in fade-in zoom-in-95 duration-150 box-border text-left overflow-hidden max-h-[360px]"
-    >
-      {/* Top Search Field (fixed at top) */}
-      <div className="h-[36px] px-2.5 bg-[#FFFFFF] border border-[#D4D4D4] rounded-[8px] flex items-center gap-2 mb-2 box-border shadow-[0_1px_2px_rgba(0,0,0,0.05)] shrink-0">
-        <FigmaAsset
-          nodeId="358:3226"
-          name="search-field"
-          src="/figma/home/search-field.svg"
-          width={16}
-          height={16}
-          alt="Search"
-          className="shrink-0"
-        />
-        <input
-          type="text"
-          value={contextSearchQuery}
-          onChange={(e) => setContextSearchQuery(e.target.value)}
-          placeholder="Search anything…"
-          className="w-full bg-transparent font-sans font-normal text-[13px] leading-[18px] text-[#171717] placeholder:text-[#737373] outline-none border-none p-0"
-          autoFocus
-        />
-      </div>
 
-      {/* Internal scrollable list container */}
-      <div className="flex flex-col max-h-[200px] overflow-y-auto overflow-x-hidden">
-        {/* Recent Section */}
-        <div className="px-2 py-1 font-sans font-semibold text-[11px] leading-[16px] text-[#737373] uppercase tracking-wider shrink-0">
-          Recent
-        </div>
-        <div className="flex flex-col gap-0.5 mb-1.5 shrink-0">
-          {filteredRecentContext.map((item) => {
-            const isAttached = attachedContext.some((c) => c.id === item.id);
-            return (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => handleToggleContext(item)}
-                className={cn(
-                  "w-full h-[38px] px-2 rounded-[8px] flex items-center justify-between transition-colors cursor-pointer border-none outline-none text-left shrink-0",
-                  isAttached ? "bg-[#FFF9E8] hover:bg-[#FFF3D1]" : "bg-transparent hover:bg-[#F5F5F5]"
-                )}
-              >
-                <div className="flex items-center gap-2 min-w-0 pr-2 overflow-hidden">
-                  <FigmaAsset
-                    nodeId="358:3368"
-                    name={item.id}
-                    src={item.iconSrc}
-                    width={18}
-                    height={18}
-                    alt=""
-                    className="shrink-0"
-                  />
-                  <span className="font-sans font-medium text-[13px] leading-[18px] text-[#171717] truncate overflow-hidden whitespace-nowrap">
-                    {item.title}
-                  </span>
-                </div>
-                {isAttached && (
-                  <span className="font-sans font-medium text-[11px] text-[#8F6500] shrink-0">Attached</span>
-                )}
-              </button>
-            );
-          })}
-          {filteredRecentContext.length === 0 && (
-            <div className="px-2 py-2 text-center font-sans text-[12px] text-[#737373]">
-              No results found
-            </div>
-          )}
-        </div>
-
-        {/* Browse Section */}
-        <div className="h-[1px] bg-[#E5E5E5] my-1 shrink-0" />
-        <div className="px-2 py-1 font-sans font-semibold text-[11px] leading-[16px] text-[#737373] uppercase tracking-wider shrink-0">
-          Browse
-        </div>
-        <div className="flex flex-col gap-0.5 shrink-0">
-          {DEMO_BROWSE_CATEGORIES.map((cat) => (
-            <button
-              key={cat.id}
-              type="button"
-              onClick={() => {
-                const matchingRecent = DEMO_RECENT_CONTEXT.find((r) => r.category === cat.title);
-                if (matchingRecent) {
-                  handleToggleContext(matchingRecent);
-                } else {
-                  setIsContextPickerOpen(false);
-                }
-              }}
-              className="w-full h-[34px] px-2 rounded-[8px] flex items-center justify-between hover:bg-[#F5F5F5] transition-colors cursor-pointer border-none outline-none bg-transparent text-left shrink-0"
-            >
-              <div className="flex items-center gap-2 min-w-0 pr-2 overflow-hidden">
-                <FigmaAsset
-                  nodeId="358:3368"
-                  name={cat.id}
-                  src={cat.iconSrc}
-                  width={16}
-                  height={16}
-                  alt=""
-                  className="shrink-0"
-                />
-                <span className="font-sans font-medium text-[13px] leading-[18px] text-[#404040] truncate overflow-hidden whitespace-nowrap">
-                  {cat.title}
-                </span>
-              </div>
-              <span className="font-sans font-normal text-[12px] leading-[16px] text-[#A3A3A3] shrink-0">
-                {cat.count}
-              </span>
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
 
   // State 3: Collapsed (Launcher Button)
   if (postieView === "collapsed") {
@@ -1019,12 +904,11 @@ export function PostiePanel() {
         }}
         className="fixed right-5 bottom-5 max-sm:right-3 max-sm:bottom-3 w-[40px] h-[40px] bg-[#FFF9E8] border border-[#FFCC33] rounded-[8.57143px] z-50 flex items-center justify-center cursor-pointer transition-all duration-200 hover:scale-105 active:scale-95 animate-in fade-in zoom-in-95 outline-none"
       >
-        <FigmaAsset
-          nodeId="358:3361"
-          name="postie-icon"
-          src="/figma/home/postie-icon.svg"
-          width={40}
-          height={40}
+        <PostieAnimatedIcon
+          size={40}
+          glow={true}
+          speed="ambient"
+          interactive={true}
           alt="Open Postie"
           className="rounded-[8.57px]"
         />
@@ -1039,10 +923,10 @@ export function PostiePanel() {
       aria-label="Postie AI Assistant"
       style={{ transformOrigin: "bottom right" }}
       className={cn(
-        "fixed bottom-6 max-sm:right-3 max-sm:bottom-3 z-40 bg-[#FFFFFF] border border-[#E9EAEB] rounded-[12px] overflow-hidden flex flex-col justify-between items-center box-border transition-[height,width,box-shadow,border-radius,right] duration-220 ease-out",
+        "bg-[#FFFFFF] border border-[#E9EAEB] rounded-[12px] overflow-hidden flex flex-col justify-between items-center box-border transition-[height,width,box-shadow,border-radius,right,top,bottom] duration-220 ease-out",
         postieView === "sidebar"
-          ? "right-5 min-[1440px]:right-[calc((100vw-1440px)/2+20px)] w-[400px] max-w-[calc(100vw-24px)] h-[calc(100dvh-112px)] min-h-[480px] shadow-[0_4px_20px_-2px_rgba(0,0,0,0.08)]"
-          : "right-5 w-[400px] max-w-[calc(100vw-24px)] h-[460px] shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.05)]"
+          ? "relative z-20 w-[360px] min-w-[360px] max-w-[360px] flex-[0_0_360px] shrink-0 h-[calc(100vh-40px)] sticky top-0 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.06)]"
+          : "fixed z-40 bottom-6 right-5 w-[360px] sm:w-[400px] max-w-[calc(100vw-24px)] h-[460px] shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.05)]"
       )}
     >
       {/* ==================================================
@@ -1050,7 +934,7 @@ export function PostiePanel() {
           ================================================== */}
       <div
         data-figma-node="358:3341"
-        className="w-[400px] max-w-full h-[72px] p-[16px_8px_16px_20px] flex justify-between items-center bg-white shrink-0 box-border border-b border-[#F0F0F0]/60 relative"
+        className="w-full h-[72px] p-[16px_12px_16px_16px] flex justify-between items-center bg-white shrink-0 box-border border-b border-[#F0F0F0]/60 relative"
       >
         <div className="w-[372px] max-w-full h-[40px] flex justify-between items-center">
           {/* Left Group */}
@@ -1278,28 +1162,27 @@ export function PostiePanel() {
           ================================================== */}
       <div
         data-figma-node="358:3350"
-        className="w-[400px] max-w-full flex-1 min-h-0 p-[20px] bg-white overflow-y-auto overflow-x-hidden box-border scroll-smooth"
+        className="w-full flex-1 min-h-0 p-[16px] bg-white overflow-y-auto overflow-x-hidden box-border scroll-smooth"
       >
         {/* Inner conversation stack aligned to bottom when empty */}
-        <div className="w-[360px] max-w-full min-h-full flex flex-col justify-end items-start gap-4 mx-auto">
+        <div className="w-full max-w-[360px] min-h-full flex flex-col justify-end items-start gap-4 mx-auto">
           {/* HEADER: COMPACT IF CONVERSATION EXISTS, OR LARGE INTRO IF EMPTY */}
           {!hasConversation ? (
             /* LARGE INTRO STATE (Empty chat) */
-            <div className="w-[360px] max-w-full flex flex-col gap-3 shrink-0">
+            <div className="w-full max-w-[360px] flex flex-col gap-3 shrink-0">
               {/* Postie Identity Row (Figma Node: 358:3361) */}
               <div
                 data-figma-node="358:3361"
-                className="w-[360px] max-w-full h-[40px] flex items-center justify-between shrink-0"
+                className="w-full h-[40px] flex items-center justify-between shrink-0"
               >
                 <div className="flex items-center gap-2">
-                  {/* Postie Identity Icon (40x40 exact artwork) */}
-                  <FigmaAsset
-                    nodeId="358:3361"
-                    name="postie-icon"
-                    src="/figma/home/postie-icon.svg"
-                    width={40}
-                    height={40}
-                    alt="Postie"
+                  {/* Postie Identity Icon (40x40 exact artwork with smooth rotation) */}
+                  <PostieAnimatedIcon
+                    size={40}
+                    speed="ambient"
+                    interactive={true}
+                    isThinking={isTyping}
+                    glow={isTyping}
                     className="rounded-[8.57px]"
                   />
                   {/* Postie Title */}
@@ -1329,7 +1212,7 @@ export function PostiePanel() {
                       type="button"
                       onClick={() => handleSelectPrompt(prompt.text)}
                       className={cn(
-                        "w-[360px] max-w-full h-[36px] p-2 gap-2 rounded-[8px] flex items-center font-sans font-semibold text-[12px] leading-[18px] text-left cursor-pointer border box-border transition-all duration-150",
+                        "w-full h-[36px] p-2 gap-2 rounded-[8px] flex items-center font-sans font-semibold text-[12px] leading-[18px] text-left cursor-pointer border box-border transition-all duration-150",
                         isSelected
                           ? "bg-[#FFF9E8] border-[#FFE8A3] text-[#8F6500] shadow-2xs"
                           : "bg-[#F5F5F5] border-transparent text-[#535862] hover:bg-[#EAEAEA]"
@@ -1353,17 +1236,15 @@ export function PostiePanel() {
             /* COMPACT CHAT HEADER (Active conversation) */
             <div
               data-figma-node="358:3368"
-              className="w-[360px] max-w-full flex items-center justify-start gap-2 h-[28px] shrink-0 border-b border-[#F0F0F0]/60 pb-2 mb-1"
+              className="w-full flex items-center justify-start gap-2 h-[28px] shrink-0 border-b border-[#F0F0F0]/60 pb-2 mb-1"
             >
               {/* Left: 20x20 postie-message-icon + Postie + small BETA badge */}
               <div className="flex items-center gap-1.5 shrink-0">
-                <FigmaAsset
-                  nodeId="358:3376"
-                  name="postie-message-icon"
-                  src="/figma/home/postie-message-icon.svg"
-                  width={20}
-                  height={20}
-                  alt="Postie"
+                <PostieAnimatedIcon
+                  size={20}
+                  speed="ambient"
+                  interactive={true}
+                  isThinking={isTyping}
                 />
                 <span className="font-sans font-medium text-[14px] leading-[20px] text-[#404040]">
                   Postie
@@ -1385,10 +1266,10 @@ export function PostiePanel() {
               <div
                 key={msg.id}
                 data-figma-node="358:3372"
-                className="w-[360px] max-w-full flex flex-col items-end gap-1 shrink-0 animate-in fade-in slide-in-from-bottom-2 duration-200"
+                className="w-full flex flex-col items-end gap-1 shrink-0 animate-in fade-in slide-in-from-bottom-2 duration-200"
               >
                 {/* Name/Time Row */}
-                <div className="w-[360px] max-w-full h-[20px] flex items-center justify-between">
+                <div className="w-full h-[20px] flex items-center justify-between">
                   <span className="font-sans font-medium text-[14px] leading-[20px] text-[#404040]">
                     You
                   </span>
@@ -1398,8 +1279,8 @@ export function PostiePanel() {
                 </div>
 
                 {/* User Bubble */}
-                <div className="w-[360px] max-w-full min-h-[40px] px-3 py-2 bg-[#FFFDF5] border border-[#FFCC33] rounded-[8px_0px_8px_8px] flex items-center box-border">
-                  <span className="font-sans font-normal text-[16px] leading-[24px] text-[#8F6500]">
+                <div className="w-full min-h-[40px] px-3 py-2 bg-[#FFFDF5] border border-[#FFCC33] rounded-[8px_0px_8px_8px] flex items-center box-border">
+                  <span className="font-sans font-normal text-[15px] leading-[22px] text-[#8F6500]">
                     {msg.text}
                   </span>
                 </div>
@@ -1409,25 +1290,18 @@ export function PostiePanel() {
               <div
                 key={msg.id}
                 data-figma-node="358:3374"
-                className="group/msg w-[360px] max-w-full flex flex-col items-start gap-2 shrink-0 animate-in fade-in duration-300"
+                className="group/msg w-full flex flex-col items-start gap-2 shrink-0 animate-in fade-in duration-300"
               >
                 {/* Content Wrapper */}
-                <div className="w-[360px] max-w-full flex flex-col gap-[6px]">
+                <div className="w-full flex flex-col gap-[6px]">
                   {/* Header Row */}
                   <div
                     data-figma-node="358:3376"
-                    className="w-[360px] max-w-full h-[20px] flex items-center justify-between"
+                    className="w-full h-[20px] flex items-center justify-between"
                   >
                     {/* Left Identity */}
                     <div className="flex items-center gap-1">
-                      <FigmaAsset
-                        nodeId="358:3376"
-                        name="postie-message-icon"
-                        src="/figma/home/postie-message-icon.svg"
-                        width={20}
-                        height={20}
-                        alt="Postie"
-                      />
+                      <PostieAnimatedIcon size={20} speed="ambient" interactive={false} />
                       <span className="font-sans font-medium text-[14px] leading-[20px] text-[#404040]">
                         Postie
                       </span>
@@ -1459,11 +1333,11 @@ export function PostiePanel() {
                   {/* Message Bubble */}
                   <div
                     data-figma-node="358:3381"
-                    className="w-[360px] max-w-full px-3 py-2 bg-[#FAFAFA] border border-[#E5E5E5] rounded-[0px_12px_12px_12px] flex flex-col items-start gap-[6px] overflow-hidden box-border"
+                    className="w-full px-3 py-2 bg-[#FAFAFA] border border-[#E5E5E5] rounded-[0px_12px_12px_12px] flex flex-col items-start gap-[6px] overflow-hidden box-border"
                   >
                     <p
                       data-figma-node="358:3382"
-                      className="w-full font-sans font-normal text-[15px] leading-[22px] text-[#171717] m-0 whitespace-pre-wrap"
+                      className="w-full font-sans font-normal text-[14px] leading-[21px] text-[#171717] m-0 whitespace-pre-wrap"
                     >
                       {msg.text}
                     </p>
@@ -1517,22 +1391,20 @@ export function PostiePanel() {
           {streamingMessage && (
             <div
               data-figma-node="358:3374"
-              className="w-[360px] max-w-full flex flex-col items-start gap-3 shrink-0 animate-in fade-in duration-200"
+              className="w-full flex flex-col items-start gap-3 shrink-0 animate-in fade-in duration-200"
             >
-              <div className="w-[360px] max-w-full flex flex-col gap-[6px]">
+              <div className="w-full flex flex-col gap-[6px]">
                 {/* Header Row */}
                 <div
                   data-figma-node="358:3376"
-                  className="w-[360px] max-w-full h-[20px] flex items-center justify-between"
+                  className="w-full h-[20px] flex items-center justify-between"
                 >
                   <div className="flex items-center gap-1">
-                    <FigmaAsset
-                      nodeId="358:3376"
-                      name="postie-message-icon"
-                      src="/figma/home/postie-message-icon.svg"
-                      width={20}
-                      height={20}
-                      alt="Postie"
+                    <PostieAnimatedIcon
+                      size={20}
+                      speed="fast"
+                      isThinking={true}
+                      interactive={false}
                     />
                     <span className="font-sans font-medium text-[14px] leading-[20px] text-[#404040]">
                       Postie
@@ -1546,11 +1418,11 @@ export function PostiePanel() {
                 {/* Streaming Message Bubble */}
                 <div
                   data-figma-node="358:3381"
-                  className="w-[360px] max-w-full px-3 py-2 bg-[#FAFAFA] border border-[#E5E5E5] rounded-[0px_12px_12px_12px] flex flex-col items-start gap-[6px] overflow-hidden box-border"
+                  className="w-full px-3 py-2 bg-[#FAFAFA] border border-[#E5E5E5] rounded-[0px_12px_12px_12px] flex flex-col items-start gap-[6px] overflow-hidden box-border"
                 >
                   <p
                     data-figma-node="358:3382"
-                    className="w-full font-sans font-normal text-[15px] leading-[22px] text-[#171717] m-0 whitespace-pre-wrap"
+                    className="w-full font-sans font-normal text-[14px] leading-[21px] text-[#171717] m-0 whitespace-pre-wrap"
                   >
                     {streamingMessage.text}
                   </p>
@@ -1561,18 +1433,16 @@ export function PostiePanel() {
 
           {/* Smart Contextual Typing Indicator */}
           {isTyping && (
-            <div className="w-[360px] max-w-full flex flex-col items-start gap-3 shrink-0 animate-in fade-in duration-200">
-              <div className="w-[360px] max-w-full flex flex-col gap-[6px]">
+            <div className="w-full flex flex-col items-start gap-3 shrink-0 animate-in fade-in duration-200">
+              <div className="w-full flex flex-col gap-[6px]">
                 {/* Header Row */}
-                <div className="w-[360px] max-w-full h-[20px] flex items-center justify-between">
+                <div className="w-full h-[20px] flex items-center justify-between">
                   <div className="flex items-center gap-1">
-                    <FigmaAsset
-                      nodeId="358:3376"
-                      name="postie-message-icon"
-                      src="/figma/home/postie-message-icon.svg"
-                      width={20}
-                      height={20}
-                      alt="Postie"
+                    <PostieAnimatedIcon
+                      size={20}
+                      speed="fast"
+                      isThinking={true}
+                      interactive={false}
                     />
                     <span className="font-sans font-medium text-[14px] leading-[20px] text-[#404040]">
                       Postie
@@ -1601,10 +1471,10 @@ export function PostiePanel() {
       {/* ==================================================
           3. CONTEXT BAR (Above Composer)
           ================================================== */}
-      <div className="w-[400px] max-w-full px-[20px] pt-2.5 pb-1 bg-white shrink-0 box-border border-t border-[#F0F0F0]/80">
+      <div className="w-full px-4 pt-2 pb-1 bg-white shrink-0 box-border border-t border-[#F0F0F0]/80">
         <div
           ref={contextPickerRef}
-          className="w-[360px] max-w-full mx-auto relative flex items-center flex-wrap gap-1.5 min-h-[26px]"
+          className="w-full max-w-[360px] mx-auto relative flex items-center flex-wrap gap-1.5 min-h-[26px]"
         >
           <span className="font-sans font-semibold text-[12px] leading-[18px] text-[#535862]">
             Context
@@ -1656,7 +1526,124 @@ export function PostiePanel() {
           )}
 
           {/* Upward Popover */}
-          {isContextPickerOpen && <ContextPickerPopover />}
+          {isContextPickerOpen && (
+            <div
+              style={{
+                boxShadow:
+                  "0px 12px 16px -4px rgba(0, 0, 0, 0.08), 0px 4px 6px -2px rgba(0, 0, 0, 0.03)",
+              }}
+              className="absolute bottom-[calc(100%+8px)] right-0 w-[320px] max-w-[calc(100%-16px)] p-2 bg-[#FFFFFF] border border-[#E5E5E5] rounded-[12px] flex flex-col z-50 animate-in fade-in zoom-in-95 duration-150 box-border text-left overflow-hidden max-h-[360px]"
+            >
+              {/* Top Search Field (fixed at top) */}
+              <div className="h-[36px] px-2.5 bg-[#FFFFFF] border border-[#D4D4D4] rounded-[8px] flex items-center gap-2 mb-2 box-border shadow-[0_1px_2px_rgba(0,0,0,0.05)] shrink-0">
+                <FigmaAsset
+                  nodeId="358:3226"
+                  name="search-field"
+                  src="/figma/home/search-field.svg"
+                  width={16}
+                  height={16}
+                  alt="Search"
+                  className="shrink-0"
+                />
+                <input
+                  type="text"
+                  value={contextSearchQuery}
+                  onChange={(e) => setContextSearchQuery(e.target.value)}
+                  placeholder="Search anything…"
+                  className="w-full bg-transparent font-sans font-normal text-[13px] leading-[18px] text-[#171717] placeholder:text-[#737373] outline-none border-none p-0"
+                  autoFocus
+                />
+              </div>
+
+              {/* Internal scrollable list container */}
+              <div className="flex flex-col max-h-[200px] overflow-y-auto overflow-x-hidden">
+                {/* Recent Section */}
+                <div className="px-2 py-1 font-sans font-semibold text-[11px] leading-[16px] text-[#737373] uppercase tracking-wider shrink-0">
+                  Recent
+                </div>
+                <div className="flex flex-col gap-0.5 mb-1.5 shrink-0">
+                  {filteredRecentContext.map((item) => {
+                    const isAttached = attachedContext.some((c) => c.id === item.id);
+                    return (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => handleToggleContext(item)}
+                        className={cn(
+                          "w-full h-[38px] px-2 rounded-[8px] flex items-center justify-between transition-colors cursor-pointer border-none outline-none text-left shrink-0",
+                          isAttached ? "bg-[#FFF9E8] hover:bg-[#FFF3D1]" : "bg-transparent hover:bg-[#F5F5F5]"
+                        )}
+                      >
+                        <div className="flex items-center gap-2 min-w-0 pr-2 overflow-hidden">
+                          <FigmaAsset
+                            nodeId="358:3368"
+                            name={item.id}
+                            src={item.iconSrc}
+                            width={18}
+                            height={18}
+                            alt=""
+                            className="shrink-0"
+                          />
+                          <span className="font-sans font-medium text-[13px] leading-[18px] text-[#171717] truncate overflow-hidden whitespace-nowrap">
+                            {item.title}
+                          </span>
+                        </div>
+                        {isAttached && (
+                          <span className="font-sans font-medium text-[11px] text-[#8F6500] shrink-0">Attached</span>
+                        )}
+                      </button>
+                    );
+                  })}
+                  {filteredRecentContext.length === 0 && (
+                    <div className="px-2 py-2 text-center font-sans text-[12px] text-[#737373]">
+                      No results found
+                    </div>
+                  )}
+                </div>
+
+                {/* Browse Section */}
+                <div className="h-[1px] bg-[#E5E5E5] my-1 shrink-0" />
+                <div className="px-2 py-1 font-sans font-semibold text-[11px] leading-[16px] text-[#737373] uppercase tracking-wider shrink-0">
+                  Browse
+                </div>
+                <div className="flex flex-col gap-0.5 shrink-0">
+                  {DEMO_BROWSE_CATEGORIES.map((cat) => (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => {
+                        const matchingRecent = DEMO_RECENT_CONTEXT.find((r) => r.category === cat.title);
+                        if (matchingRecent) {
+                          handleToggleContext(matchingRecent);
+                        } else {
+                          setIsContextPickerOpen(false);
+                        }
+                      }}
+                      className="w-full h-[34px] px-2 rounded-[8px] flex items-center justify-between hover:bg-[#F5F5F5] transition-colors cursor-pointer border-none outline-none bg-transparent text-left shrink-0"
+                    >
+                      <div className="flex items-center gap-2 min-w-0 pr-2 overflow-hidden">
+                        <FigmaAsset
+                          nodeId="358:3368"
+                          name={cat.id}
+                          src={cat.iconSrc}
+                          width={16}
+                          height={16}
+                          alt=""
+                          className="shrink-0"
+                        />
+                        <span className="font-sans font-medium text-[13px] leading-[18px] text-[#404040] truncate overflow-hidden whitespace-nowrap">
+                          {cat.title}
+                        </span>
+                      </div>
+                      <span className="font-sans font-normal text-[12px] leading-[16px] text-[#A3A3A3] shrink-0">
+                        {cat.count}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -1665,10 +1652,10 @@ export function PostiePanel() {
           ================================================== */}
       <div
         data-figma-node="358:3386"
-        className="w-[400px] max-w-full p-[8px_20px_16px_20px] flex flex-col justify-between items-center bg-white shrink-0 box-border"
+        className="w-full p-[8px_16px_16px_16px] flex flex-col justify-between items-center bg-white shrink-0 box-border"
       >
         {/* Textarea Box */}
-        <div className="w-[360px] max-w-full h-[110px] p-3 flex flex-col justify-between bg-[#FFFFFF] border border-[#D4D4D4] rounded-[8px] shadow-[0_1px_2px_rgba(0,0,0,0.05)] box-border">
+        <div className="w-full max-w-[360px] h-[110px] p-3 flex flex-col justify-between bg-[#FFFFFF] border border-[#D4D4D4] rounded-[8px] shadow-[0_1px_2px_rgba(0,0,0,0.05)] box-border">
           {/* Input */}
           <textarea
             ref={textareaRef}

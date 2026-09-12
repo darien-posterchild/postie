@@ -1,37 +1,29 @@
 "use client";
 
 import React, { ReactNode } from "react";
-import { Header } from "@/components/layout/header";
+import { SidebarNavigation } from "@/components/layout/sidebar-navigation";
 import { PostiePanel } from "@/components/layout/postie-panel";
-import { PostieProvider, usePostie } from "@/lib/postie-context";
-import { cn } from "@/lib/utils";
+import { PostieProvider } from "@/lib/postie-context";
 
 function ShellContent({ children }: { children: ReactNode }) {
-  const { postieView } = usePostie();
-  const isSidebar = postieView === "sidebar";
-
   return (
-    <div className="w-full min-h-screen flex flex-col items-center bg-[#FAFAFA] relative">
-      <Header />
+    <div className="w-full min-h-screen h-screen flex flex-row bg-[#FFFDF5] relative overflow-hidden">
+      {/* Sidebar: width: 280px (or 84px collapsed), flex: none */}
+      <SidebarNavigation />
 
-      {/* Main page content area */}
-      <div
-        className={cn(
-          "w-full max-w-[1440px] flex-1 flex flex-row px-5 py-6 gap-5 transition-all duration-200 ease-out",
-          isSidebar ? "justify-between" : "justify-center"
-        )}
-      >
-        <main className="flex-1 min-w-0 flex flex-col gap-6 transition-all duration-200">
-          {children}
-        </main>
+      {/* App content: flex: 1, min-width: 0 */}
+      <div className="flex-1 min-w-0 h-full flex flex-col overflow-hidden">
+        {/* Body: display flex, align-items flex-start, padding 20px, gap 20px, width 100%, height 100%, min-width: 0 */}
+        <div className="w-full h-full p-5 flex flex-row items-start gap-5 min-w-0 box-border overflow-y-auto">
+          {/* Main content: flex: 1 1 0%, min-width: 0, width: auto */}
+          <main className="flex-1 min-w-0 w-auto self-stretch flex flex-col gap-6">
+            {children}
+          </main>
 
-        {isSidebar && (
-          <div className="w-[400px] min-w-[400px] max-w-[400px] shrink-0 pointer-events-none hidden min-[1240px]:block" />
-        )}
+          {/* Postie AI Assistant: width: 360px, flex: 0 0 360px */}
+          <PostiePanel />
+        </div>
       </div>
-
-      {/* Global Fixed Postie AI Agent */}
-      <PostiePanel />
     </div>
   );
 }

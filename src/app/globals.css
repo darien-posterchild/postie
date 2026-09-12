@@ -44,3 +44,52 @@ body {
   }
 }
 
+/* Postie AI Rotating Emblem Animations */
+@keyframes postie-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes postie-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px rgba(244, 180, 0, 0.25));
+  }
+  50% {
+    filter: drop-shadow(0 0 7px rgba(244, 180, 0, 0.55));
+  }
+}
+
+.postie-rotate-element {
+  transform-origin: 50% 50%;
+  will-change: transform;
+  animation: postie-spin 10s linear infinite;
+}
+
+.postie-spin-slow {
+  animation-duration: 16s;
+}
+
+.postie-spin-ambient {
+  animation-duration: 9s;
+}
+
+.postie-spin-normal {
+  animation-duration: 5s;
+}
+
+.postie-spin-fast {
+  animation-duration: 2.2s;
+}
+
+.postie-spin-interactive {
+  animation-duration: 2.6s !important;
+}
+
+.postie-glow-pulse {
+  animation: postie-glow 3s ease-in-out infinite;
+}
+

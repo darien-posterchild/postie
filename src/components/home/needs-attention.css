@@ -1,0 +1,150 @@
+.attention-table-container {
+  width: 100%;
+  border: 1px solid #E5E5E5;
+  border-radius: 12px;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: #FFFFFF;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  container-type: inline-size;
+  container-name: attention-table;
+}
+
+/* Header row - Desktop */
+.attention-header-row {
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
+  display: grid;
+  grid-template-columns: 224px 110px minmax(0, 1fr);
+  background-color: #FAFAFA;
+  border-bottom: 1px solid #E5E5E5;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.attention-header-cell {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-width: 0;
+  height: 100%;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 18px;
+  color: #737373;
+}
+
+/* Data rows - Desktop */
+.attention-data-row {
+  height: 64px;
+  min-height: 64px;
+  max-height: 64px;
+  display: grid;
+  grid-template-columns: 224px 110px minmax(0, 1fr);
+  align-items: stretch;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E5E5E5;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.attention-data-row:last-child {
+  border-bottom: 0;
+}
+
+/* In desktop mode, the top wrapper has display: contents so its children are direct grid cells */
+.attention-row-top {
+  display: contents;
+}
+
+/* Desktop Cells */
+.attention-cell-item {
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.attention-cell-priority {
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.attention-cell-detail {
+  padding: 8px 20px 8px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Medium width: table between 640px and 739px */
+@container attention-table (min-width: 640px) and (max-width: 739px) {
+  .attention-header-row,
+  .attention-data-row {
+    grid-template-columns: minmax(190px, 0.9fr) 110px minmax(260px, 1.6fr);
+  }
+}
+
+/* Narrow width: table < 640px */
+@container attention-table (max-width: 639px) {
+  .attention-header-row {
+    display: none;
+  }
+
+  .attention-data-row {
+    height: auto;
+    min-height: 96px;
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    gap: 0;
+  }
+
+  .attention-row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .attention-cell-item {
+    padding: 0;
+    height: auto;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .attention-cell-priority {
+    padding: 0;
+    height: auto;
+    flex-shrink: 0;
+  }
+
+  .attention-cell-detail {
+    padding: 8px 0 0 0;
+    margin-top: 8px;
+    border-top: 1px solid #F5F5F5;
+    width: 100%;
+    height: auto;
+    gap: 2px;
+  }
+
+  .attention-cell-detail span {
+    white-space: normal;
+  }
+}
